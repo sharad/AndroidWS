@@ -1,0 +1,11 @@
+
+pkg-exec guix install grub grub-efi grub-hybrid
+pkg-exec guix install -p /home/s/hell/.fa/src/guix-config/per-user/s/profiles/90-heavy/profiles.d/profile qemu
+pkg-exec guix install -p /home/s/hell/.fa/src/guix-config/per-user/s/profiles/90-heavy/profiles.d/profile ovmf-x86-64
+
+
+qemu-img create -f raw android.img 8G
+qemu-img create -f raw ANDROIDWS/android-vol.img 11G
+sudo grub-install --efi-directory=/run/media/s/QANDVG/efi --boot-directory=/mnt --removable --bootloader-id=Loader
+
+
