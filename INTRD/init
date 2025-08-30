@@ -1,0 +1,135 @@
+#!/bin/busybox sh
+#
+# By Chih-Wei Huang <cwhuang@linux.org.tw>
+# and Thorsten Glaser <tg@mirbsd.org>
+#
+# Last updated 2018/01/26
+#
+# License: GNU Public License
+# We explicitely grant the right to use the scripts
+# with Android-x86 project.
+#
+
+#!/bin/busybox sh
+#
+# Android-x86 LVM boot init
+#
+
+PATH=/sbin:/bin:/system/bin:/system/xbin; export PATH
+
+# configure logging
+LOG=/tmp/log
+
+
+set -x
+
+echo "DEBUG: mounted system and data. dropping to shell..."
+sh
+
+/sbin/lvm.static vgchange -a y
+
+sh
+
+
+# exec 2>> $LOG
+
+# early boot
+if test x"$HAS_CTTY" != x"Yes"; then
+	# initialise /proc and /sys
+	busybox mount -t proc proc /proc
+	busybox mount -t sysfs sys /sys
+	# let busybox install all applets as symlinks
+	busybox --install -s
+	# spawn shells on tty 2 and 3 if debug or installer
+	if test -n "$DEBUG" || test -n "$INSTALL"; then
+		# ensure they can open a controlling tty
+		mknod /dev/tty c 5 0
+		# create device nodes then spawn on them
+		mknod /dev/tty2 c 4 2 && openvt
+		mknod /dev/tty3 c 4 3 && openvt
+	fi
+	if test -z "$DEBUG" || test -n "$INSTALL"; then
+		echo 0 0 0 0 > /proc/sys/kernel/printk
+	fi
+	# initialise /dev (first time)
+	mkdir -p /dev/block
+	echo /sbin/mdev > /proc/sys/kernel/hotplug
+	mdev -s
+	# re-run this script with a controlling tty
+	exec env HAS_CTTY=Yes setsid cttyhack /bin/sh "$0" "$@"
+else
+	# early mount for /proc, /sys, /dev
+	busybox mount -t proc proc /proc
+	busybox mount -t sysfs sys /sys
+
+fi
+
+
+sh
+
+
+# activate LVM
+/sbin/lvm.static vgchange -a y
+busybox ls /dev/mapper
+
+mkdir -p /dev/block
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+mdev -s
+
+
+
+# mount system partition
+SYSTEM_DEV=/dev/mapper/android-system
+DATA_DEV=/dev/mapper/android-data
+
+mkdir -p /mnt/system
+mkdir -p /mnt/data
+
+mount -o ro,noatime $SYSTEM_DEV /mnt/system || {
+	echo "Failed to mount system partition"
+	exec sh
+}
+
+sleep 10s
+
+# mount data partition (writable)
+mount -o rw,noatime $DATA_DEV /mnt/data || {
+	echo "Failed to mount data partition"
+	exec sh
+}
+
+
+# # mount system.sfs or system.img if present
+# if [ -e /mnt/system/system.sfs ]; then
+# 	mkdir -p /mnt/sfs
+# 	mount -o loop,noatime /mnt/system/system.sfs /mnt/sfs
+# 	if [ -e /mnt/sfs/system.img ]; then
+# 		mount -o loop,noatime /mnt/sfs/system.img /mnt/system
+# 	else
+# 		mount --move /mnt/sfs /mnt/system
+# 	fi
+# elif [ -e /mnt/system/system.img ]; then
+# 	mount -o loop,noatime /mnt/system/system.img /mnt/system
+# fi
+
+# create essential symlinks
+ln -s /mnt/system /system
+ln -s /mnt/data /data
+
+mkdir -p /android
+mount --bind /mnt/system /android
+# mount -t tmpfs tmpfs /android
+
+# set Android root
+export ANDROID_ROOT=/system
+
+# finally switch_root to /android with /init
+exec switch_root /android /init
+
+
+# fallback shell if something fails
+while :; do
+	echo "Android-x86 emergency shell"
+	sh
+done
+
