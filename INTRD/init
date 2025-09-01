@@ -185,7 +185,7 @@ cd /android
 
 exit
 
-check_root "/dev/" && break 2
+# check_root "/dev/" && break 2
 
 
 ln -s mnt/$SRC /src
