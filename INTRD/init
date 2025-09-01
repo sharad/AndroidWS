@@ -192,8 +192,6 @@ done
 
 /bin/busybox sh
 
-exit
-
 # check_root "/dev/" && break 2
 
 if [ -d mnt/$SRC ]; then
