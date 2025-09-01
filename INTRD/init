@@ -178,6 +178,7 @@ cd /android
 # 	echo -n .
 # done
 
+/sbin/lvm vgchange -a y
 /bin/busybox ls -t /dev/
 /bin/busybox ls -l /dev/mapper
 /bin/busybox sh
