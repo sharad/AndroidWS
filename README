@@ -1,7 +1,9 @@
 
 pkg-exec guix install grub grub-efi grub-hybrid
 pkg-exec guix install -p /home/s/hell/.fa/src/guix-config/per-user/s/profiles/90-heavy/profiles.d/profile qemu
+pkg-exec guix install -p /home/s/hell/.fa/src/guix-config/per-user/s/profiles/90-heavy/profiles.d/profile ovmf
 pkg-exec guix install -p /home/s/hell/.fa/src/guix-config/per-user/s/profiles/90-heavy/profiles.d/profile ovmf-x86-64
+pkg-exec guix install -p /home/s/hell/.fa/src/guix-config/per-user/s/profiles/90-heavy/profiles.d/profile spice-vdagent
 
 
 qemu-img create -f raw android.img 8G

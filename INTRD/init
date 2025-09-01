@@ -107,8 +107,12 @@ check_root()
 	fi
 
 	if [ -n "$VOLUME" -a -e "/dev/mapper/${VOLUME}-sys" ]; then
-	echo Found "/dev/mapper/${VOLUME}-sys"
-    mount "/dev/mapper/${VOLUME}-sys" /mnt/system
+	  echo Found "/dev/mapper/${VOLUME}-sys"
+		# ls -l "/dev/mapper/${VOLUME}-sys"
+		# ls -l "/dev/mapper/"
+		# ls -l system
+		# mount -o ro,noatime "/dev/mapper/${VOLUME}-sys" system
+		mount -o ro "/dev/mapper/${VOLUME}-sys" system
 	elif [ -e /mnt/$SRC/system.sfs ]; then
 	  mount -o loop,noatime /mnt/$SRC/system.sfs system
 	  if [ -e system/system.img ]; then
@@ -178,8 +182,8 @@ if [ -n "$VOLUME" ]; then
 	/sbin/dmsetup ls
   /sbin/dmsetup mknodes "${VOLUME}-boot" "${VOLUME}-data" "${VOLUME}-sys"
   /bin/busybox ls -l /dev/mapper
-	echo sleep 10s
-	sleep 10s
+	# echo sleep 1s
+	# sleep 1s
 fi
 
 # /bin/busybox sh
@@ -222,9 +226,16 @@ if [ -x system/bin/ln -a \( -n "$DEBUG" -o -n "$BUSYBOX" \) ]; then
 fi
 
 # load scripts
-for s in `ls /scripts/* /src/scripts/*`; do
-	test -e "$s" && source $s
-done
+if [ -d /scripts ]; then
+  for s in `ls /scripts/*; do
+    test -e "$s" && source $s
+  done
+fi
+if [ -d /src/scripts ]; then
+  for s in `ls /src/scripts/*; do
+    test -e "$s" && source $s
+  done
+fi
 
 # ensure keyboard driver is loaded
 if [ -n "$INSTALL" -o -n "$DEBUG" ]; then
@@ -268,6 +279,10 @@ fi
 echo > /proc/sys/kernel/hotplug
 
 export ANDROID_ROOT=/system
+
+
+echo sleep 10s
+sleep 10s
 
 exec ${SWITCH:-switch_root} /android /init
 
