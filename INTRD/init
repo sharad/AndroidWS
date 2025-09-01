@@ -196,8 +196,9 @@ exit
 
 # check_root "/dev/" && break 2
 
-
-ln -s mnt/$SRC /src
+if [ -d mnt/$SRC ]; then
+  ln -s mnt/$SRC /src
+fi
 ln -s android/system /
 ln -s ../system/lib/firmware ../system/lib/modules /lib
 
