@@ -106,7 +106,7 @@ check_root()
 		return 1
 	fi
 
-	if [ -n "$VOLUME" -a -e "/dev/mapper/${VOLUME}-sys" ] ; then
+	if [ -n "$VOLUME" -a -e "/dev/mapper/${VOLUME}-sys" ]; then
     mount "/dev/mapper/${VOLUME}-sys" /mnt/system
 	fi
 
