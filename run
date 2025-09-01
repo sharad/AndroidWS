@@ -6,7 +6,7 @@ sudo qemu-system-x86_64 -m 2048 \
                         -display gtk \
                         -drive file=android-vol.img,format=raw \
 			                  -drive if=pflash,format=raw,readonly=on,file=$HOME/.fa/src/guix-config/per-user/s/profiles/90-heavy/profiles.d/profile/share/firmware/ovmf_code_x64.bin \
-                        -drive if=pflash,format=raw,file=OVMF_VARS.fd \
+                        -drive if=pflash,format=raw,file=/home/s/paradise/Projects/AndroidWS/OVMF_VARS.fd \
                         -device qemu-xhci,id=usb \
                         -device usb-kbd \
                         -device usb-tablet
