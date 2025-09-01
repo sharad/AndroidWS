@@ -179,13 +179,8 @@ cd /android
 # done
 
 /sbin/dmsetup.static mknodes avg-boot avg-data avg-sys
-/sbin/lvm.static vgchange -a y
-/sbin/lvm.static vgchange -a y
-/bin/busybox ls /dev/
 /bin/busybox ls /dev/mapper
 /bin/busybox ls /dev/avg-boot
-/bin/busybox ls /dev/avg/
-/sbin/lvm.static vgchange -a y
 /bin/busybox sh
 
 exit
