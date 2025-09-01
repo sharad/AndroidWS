@@ -177,6 +177,7 @@ cd /android
 # 	sleep 1
 # 	echo -n .
 # done
+
 /sbin/lvm.static vgchange -a y
 /sbin/lvm.static vgchange -a y
 /sbin/lvm.static vgchange -a y
