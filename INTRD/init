@@ -171,8 +171,17 @@ for c in `cat /proc/cmdline`; do
   esac
 done
 
+
+/sbin/dmsetup.static mknodes avg-boot avg-data avg-sys
+/bin/busybox ls /dev/mapper
+/bin/busybox ls /dev/avg-boot
+
+
 mount -t tmpfs tmpfs /android
 cd /android
+
+
+
 while :; do
   for device in ${ROOT:-/dev/[hmnsv][dmrv][0-9a-z]*} ${ROOT:-/dev/mapper/[0-9a-z]*-[0-9a-z]*}; do
 		echo while check_root $device
@@ -183,9 +192,6 @@ while :; do
   echo -n .
 done
 
-/sbin/dmsetup.static mknodes avg-boot avg-data avg-sys
-/bin/busybox ls /dev/mapper
-/bin/busybox ls /dev/avg-boot
 /bin/busybox sh
 
 exit
