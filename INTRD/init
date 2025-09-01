@@ -107,6 +107,7 @@ check_root()
 	fi
 
 	if [ -n "$VOLUME" -a -e "/dev/mapper/${VOLUME}-sys" ] ; then
+	mount "/dev/mapper/${VOLUME}-sys"
 	fi
 
 
