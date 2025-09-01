@@ -177,6 +177,7 @@ if [ -n "$VOLUME" ]; then
   /sbin/dmsetup mknodes "${VOLUME}-boot" "${VOLUME}-data" "${VOLUME}-sys"
   /bin/busybox ls /dev/mapper
   /bin/busybox ls /dev/avg-boot
+	sleep 10s
 fi
 
 mount -t tmpfs tmpfs /android
