@@ -172,7 +172,7 @@ for c in `cat /proc/cmdline`; do
 done
 
 if [ -n "$VOLUME" ]; then
-  /sbin/dmsetup mknodes avg-boot avg-data avg-sys
+  /sbin/dmsetup mknodes "${$VOLUME}-boot" avg-data avg-sys
   /bin/busybox ls /dev/mapper
   /bin/busybox ls /dev/avg-boot
 fi
