@@ -174,7 +174,7 @@ done
 if [ -n "$VOLUME" ]; then
   echo Creatign volumes
 	/sbin/dmsetup ls
-  /sbin/dmsetup mknodes "${$VOLUME}-boot" "${$VOLUME}-data" "${$VOLUME}-sys"
+  /sbin/dmsetup mknodes ${$VOLUME}-boot ${$VOLUME}-data ${$VOLUME}-sys
   /bin/busybox ls /dev/mapper
   /bin/busybox ls /dev/avg-boot
 fi
