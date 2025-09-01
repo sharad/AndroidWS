@@ -159,16 +159,16 @@ echo -n Detecting Android-x86...
 [ -z "$SRC" -a -n "$BOOT_IMAGE" ] && SRC=`dirname $BOOT_IMAGE`
 [ -z "$RAMDISK" ] && RAMDISK=ramdisk.img || RAMDISK=${RAMDISK##/dev/}
 
-# for c in `cat /proc/cmdline`; do
-# 	case $c in
-# 		iso-scan/filename=*)
-# 			SRC=iso
-# 			eval `echo $c | cut -b1-3,18-`
-# 			;;
-# 		*)
-# 			;;
-# 	esac
-# done
+for c in `cat /proc/cmdline`; do
+  case $c in
+    iso-scan/filename=*)
+      SRC=iso
+      eval `echo $c | cut -b1-3,18-`
+      ;;
+    *)
+      ;;
+  esac
+done
 
 mount -t tmpfs tmpfs /android
 cd /android
