@@ -83,7 +83,7 @@ try_mount()
 
 check_root()
 {
-	if [ "`dirname $1`" = "/dev" ]; then
+	if [ "`dirname $1`" = "/dev" -o "`dirname $1`" = "/dev/mapper" ]; then
 		[ -e $1 ] || return 1
 		blk=`basename $1`
 		[ ! -e /dev/block/$blk ] && ln $1 /dev/block
