@@ -105,6 +105,10 @@ check_root()
 	else
 		return 1
 	fi
+
+	if [ -n "$VOLUME" ]
+
+
 	# if [ -e /mnt/$SRC/system.sfs ]; then
 	#   mount -o loop,noatime /mnt/$SRC/system.sfs system
 	#   if [ -e system/system.img ]; then
