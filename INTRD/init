@@ -178,7 +178,7 @@ cd /android
 # 	echo -n .
 # done
 
-/sbin/dmsetup.static mknodes $VOLUME
+/sbin/dmsetup.static mknodes avg-boot avg-data avg-sys
 /sbin/lvm.static vgchange -a y
 /sbin/lvm.static vgchange -a y
 /bin/busybox ls /dev/
