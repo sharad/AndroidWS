@@ -202,7 +202,7 @@ fi
 ln -s android/system /
 ln -s ../system/lib/firmware ../system/lib/modules /lib
 
-if [ -n "$INSTALL" ]; then
+if [ -n "$INSTALL" -a -e /src/install.img ]; then
 	zcat /src/install.img | ( cd /; cpio -iud > /dev/null )
 fi
 
