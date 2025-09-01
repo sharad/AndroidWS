@@ -178,6 +178,8 @@ cd /android
 # 	echo -n .
 # done
 
+/bin/busybox ls -t /dev/
+/bin/busybox ls -l /dev/mapper
 /bin/busybox sh
 
 exit
