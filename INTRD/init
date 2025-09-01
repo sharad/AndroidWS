@@ -107,6 +107,7 @@ check_root()
 	fi
 
 	if [ -n "$VOLUME" -a -e "/dev/mapper/${VOLUME}-sys" ]; then
+	echo Fouind "/dev/mapper/${VOLUME}-sys"
     mount "/dev/mapper/${VOLUME}-sys" /mnt/system
 	elif [ -e /mnt/$SRC/system.sfs ]; then
 	  mount -o loop,noatime /mnt/$SRC/system.sfs system
