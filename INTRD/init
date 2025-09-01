@@ -107,7 +107,7 @@ check_root()
 	fi
 
 	if [ -n "$VOLUME" -a -e "/dev/mapper/${VOLUME}-sys" ]; then
-	echo Fouind "/dev/mapper/${VOLUME}-sys"
+	echo Found "/dev/mapper/${VOLUME}-sys"
     mount "/dev/mapper/${VOLUME}-sys" /mnt/system
 	elif [ -e /mnt/$SRC/system.sfs ]; then
 	  mount -o loop,noatime /mnt/$SRC/system.sfs system
@@ -172,14 +172,17 @@ for c in `cat /proc/cmdline`; do
 done
 
 if [ -n "$VOLUME" ]; then
-  echo Creatign volumes
+  echo
+  echo Creating volumes
+	/sbin/vgchange -a y "${VOLUME}"
 	/sbin/dmsetup ls
   /sbin/dmsetup mknodes "${VOLUME}-boot" "${VOLUME}-data" "${VOLUME}-sys"
-  /bin/busybox ls /dev/mapper
-  /bin/busybox ls /dev/avg-boot
+  /bin/busybox ls -l /dev/mapper
 	echo sleep 10s
 	sleep 10s
 fi
+
+# /bin/busybox sh
 
 mount -t tmpfs tmpfs /android
 cd /android
@@ -194,7 +197,7 @@ while :; do
   echo -n .
 done
 
-/bin/busybox sh
+# /bin/busybox sh
 
 # check_root "/dev/" && break 2
 
