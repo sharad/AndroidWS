@@ -172,14 +172,14 @@ done
 
 mount -t tmpfs tmpfs /android
 cd /android
-# while :; do
-#   for device in ${ROOT:-/dev/[hmnsv][dmrv][0-9a-z]*} ${ROOT:-/dev/mapper/[0-9a-z]*-[0-9a-z]*}; do
-#     check_root $device && break 2
-#     mountpoint -q /mnt && umount /mnt
-#   done
-#   sleep 1
-#   echo -n .
-# done
+while :; do
+  for device in ${ROOT:-/dev/[hmnsv][dmrv][0-9a-z]*} ${ROOT:-/dev/mapper/[0-9a-z]*-[0-9a-z]*}; do
+    check_root $device && break 2
+    mountpoint -q /mnt && umount /mnt
+  done
+  sleep 1
+  echo -n .
+done
 
 /sbin/dmsetup.static mknodes avg-boot avg-data avg-sys
 /bin/busybox ls /dev/mapper
