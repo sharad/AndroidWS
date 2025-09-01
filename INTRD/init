@@ -181,6 +181,7 @@ cd /android
 /sbin/lvm vgchange -a y
 /bin/busybox ls /dev/
 /bin/busybox ls /dev/mapper
+/sbin/lvm vgchange -a y
 /bin/busybox sh
 
 exit
