@@ -93,11 +93,11 @@ check_root()
 	fi
 	try_mount ro $dev /mnt || return 1
 
-	# if [ -n "$iso" -a -e /mnt/$iso ]; then
-	# 	mount --move /mnt /iso
-	# 	mkdir /mnt/iso
-	# 	mount -o loop /iso/$iso /mnt/iso
-	# fi
+	if [ -n "$iso" -a -e /mnt/$iso ]; then
+	  mount --move /mnt /iso
+	  mkdir /mnt/iso
+	  mount -o loop /iso/$iso /mnt/iso
+	fi
 	if [ -e /mnt/$RAMDISK ]; then
 		zcat /mnt/$RAMDISK | cpio -id > /dev/null
 	# elif [ -b /dev/$RAMDISK ]; then
