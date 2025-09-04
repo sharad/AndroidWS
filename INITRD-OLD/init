@@ -156,8 +156,9 @@ debug_shell()
 }
 
 
-
-
+if [ 0$DEBUG_SHELL -gt 0 ]; then
+  /bin/busybox sh
+fi
 
 echo -n Detecting Android-x86...
 
@@ -175,6 +176,11 @@ for c in `cat /proc/cmdline`; do
   esac
 done
 
+if [ 0$DEBUG_SHELL -gt 1 ]; then
+  /bin/busybox sh
+fi
+
+
 if [ -n "$VOLUME" ]; then
   echo
   echo Creating volumes
@@ -186,7 +192,11 @@ if [ -n "$VOLUME" ]; then
 	# sleep 1s
 fi
 
-# /bin/busybox sh
+
+if [ 0$DEBUG_SHELL -gt 2 ]; then
+  /bin/busybox sh
+fi
+
 
 mount -t tmpfs tmpfs /android
 cd /android
@@ -201,9 +211,11 @@ while :; do
   echo -n .
 done
 
-# /bin/busybox sh
 
-# check_root "/dev/" && break 2
+if [ 0$DEBUG_SHELL -gt 3 ]; then
+  /bin/busybox sh
+fi
+
 
 if [ -d mnt/$SRC ]; then
   ln -s mnt/$SRC /src
