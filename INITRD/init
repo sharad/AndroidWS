@@ -422,14 +422,14 @@ elif [ -d system/apex/com.android.runtime ]; then
 fi
 
 bliss_feature
-echo -n READ0; read xtest
+echo READ0
 device_information
 
 if [ -n "$INSTALL" ]; then
 	zcat /src/install.img | ( cd /; cpio -iud > /dev/null )
 fi
 
-echo -n READ1; read xtest
+echo READ1
 
 # load scripts
 if [ -d /scripts ]; then
@@ -437,13 +437,13 @@ if [ -d /scripts ]; then
     test -e "$s" && source $s
   done
 fi
-echo -n READ2; read xtest
+echo READ2
 if [ -d /src/scripts ]; then
   for s in `ls /src/scripts/*; do
     test -e "$s" && source $s
   done
 fi
-echo -n READ3; read xtest
+echo READ3
 # for s in `ls /scripts/* /src/scripts/*`; do
 # 	test -e "$s" && source $s
 # done
@@ -459,38 +459,38 @@ if [ -n "$INSTALL" -o -n "$DEBUG" ]; then
 	fi
 	sleep 2
 fi
-echo -n READ4; read xtest
+echo READ4
 
 if [ 0$DEBUG -gt 0 ]; then
 	echo -e "\nType 'exit' to continue booting...\n"
 	debug_shell debug-found
 fi
-echo -n READ5; read xtest
+echo READ5
 
 # A target should provide its detect_hardware function.
 # On success, return 0 with the following values set.
 # return 1 if it wants to use auto_detect
 [ "$AUTO" != "1" ] && detect_hardware && FOUND=1
-echo -n READ6; read xtest
+echo READ6
 
 [ -n "$INSTALL" ] && do_install
-echo -n READ7; read xtest
+echo READ7
 
 load_modules
-echo -n READ8; read xtest
+echo READ8
 mount_data
-echo -n READ9; read xtest
+echo READ9
 mount_sdcard
-echo -n READ10; read xtest
+echo READ10
 # mount_grub
 setup_ab_loops
-echo -n READ11; read xtest
+echo READ11
 setup_tslib
-echo -n READ12; read xtest
+echo READ12
 setup_dpi
-echo -n READ13; read xtest
+echo READ13
 post_detect
-echo -n READ14; read xtest
+echo READ14
 
 if [ 0$DEBUG -gt 1 ]; then
 	echo -e "\nUse Alt-F1/F2/F3 to switch between virtual consoles"
@@ -498,19 +498,19 @@ if [ 0$DEBUG -gt 1 ]; then
 
 	debug_shell debug-late
 fi
-echo -n READ15; read xtest
+echo READ15
 
 [ -n "$DEBUG" ] && SWITCH=${SWITCH:-chroot}
-echo -n READ16; read xtest
+echo READ16
 
 # We must disable mdev before switching to Android
 # since it conflicts with Android's init
 echo > /proc/sys/kernel/hotplug
-echo -n READ17; read xtest
+echo READ17
 
 # Use correct modprobe location
 echo /system/bin/modprobe > /proc/sys/kernel/modprobe
-echo -n READ18; read xtest
+echo READ18
 
 echo wc -l /system/bin/init
 wc -l /system/bin/init
@@ -518,7 +518,7 @@ echo wc -l /android/init
 wc -l /android/init
 
 export ANDROID_ROOT=/system
-echo -n READ19; read xtest
+echo READ19
 
 
 if [ 0$DEBUG_SHELL -gt 1 ]; then
